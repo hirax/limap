@@ -33,7 +33,8 @@ class DeepLSDDetector(BaseDetector):
             )
         if not os.path.isfile(ckpt):
             self.download_model(ckpt)
-        ckpt = torch.load(ckpt, map_location="cpu")
+        #ckpt = torch.load(ckpt, map_location="cpu", weights_only=False) # original
+        ckpt = torch.load(ckpt, map_location="cpu", weights_only=False)  #jh: we need this for PyTorch 2.6 
         self.net = DeepLSD(conf).eval()
         self.net.load_state_dict(ckpt["model"])
         self.net = self.net.to(self.device)
